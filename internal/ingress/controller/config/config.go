@@ -673,6 +673,9 @@ type Configuration struct {
 	// LocationSnippet adds custom configuration to all the locations in the nginx configuration
 	LocationSnippet string `json:"location-snippet"`
 
+	// CustomErrorSnippet adds custom configuration to all the custom error locations in the nginx configuration
+	CustomErrorsSnippet string `json:"custom-errors-snippet"`
+
 	// HTTPRedirectCode sets the HTTP status code to be used in redirects.
 	// Supported codes are 301,302,307 and 308
 	// Default: 308

@@ -1277,17 +1277,19 @@ func proxySetHeader(loc interface{}) string {
 
 // buildCustomErrorDeps is a utility function returning a struct wrapper with
 // the data required to build the 'CUSTOM_ERRORS' template
-func buildCustomErrorDeps(upstreamName string, errorCodes []int, enableMetrics bool, modsecurityEnabled bool) interface{} {
+func buildCustomErrorDeps(upstreamName string, errorCodes []int, enableMetrics bool, modsecurityEnabled bool, snippet string) interface{} {
 	return struct {
 		UpstreamName       string
 		ErrorCodes         []int
 		EnableMetrics      bool
 		ModsecurityEnabled bool
+		Snippet            string
 	}{
 		UpstreamName:       upstreamName,
 		ErrorCodes:         errorCodes,
 		EnableMetrics:      enableMetrics,
 		ModsecurityEnabled: modsecurityEnabled,
+		Snippet:            snippet,
 	}
 }
 

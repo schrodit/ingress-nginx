@@ -659,7 +659,7 @@ http {
         {{ $cfg.ServerSnippet }}
         {{ end }}
 
-        {{ template "CUSTOM_ERRORS" (buildCustomErrorDeps "upstream-default-backend" $cfg.CustomHTTPErrors $all.EnableMetrics $cfg.EnableModsecurity) }}
+        {{ template "CUSTOM_ERRORS" (buildCustomErrorDeps "upstream-default-backend" $cfg.CustomHTTPErrors $all.EnableMetrics $cfg.EnableModsecurity $cfg.CustomErrorsSnippet) }}
     }
     ## end server {{ $server.Hostname }}
 
@@ -877,6 +877,7 @@ stream {
         {{ $enableMetrics := .EnableMetrics }}
         {{ $modsecurityEnabled := .ModsecurityEnabled }}
         {{ $upstreamName := .UpstreamName }}
+        {{ $snippet := .Snippet }}
         {{ range $errCode := .ErrorCodes }}
         location @custom_{{ $upstreamName }}_{{ $errCode }} {
             internal;
@@ -900,6 +901,11 @@ stream {
             proxy_set_header       Host               $best_http_host;
 
             set $proxy_upstream_name {{ $upstreamName | quote }};
+            
+            {{ if not (empty $snippet) }}
+            # Custom code snippet configured for custom errors
+            {{ $snippet }}
+            {{ end }}
 
             rewrite                (.*) / break;
 
@@ -1025,7 +1031,7 @@ stream {
         {{ end }}
 
         {{ range $errorLocation := (buildCustomErrorLocationsPerServer $server) }}
-        {{ template "CUSTOM_ERRORS" (buildCustomErrorDeps $errorLocation.UpstreamName $errorLocation.Codes $all.EnableMetrics $all.Cfg.EnableModsecurity) }}
+        {{ template "CUSTOM_ERRORS" (buildCustomErrorDeps $errorLocation.UpstreamName $errorLocation.Codes $all.EnableMetrics $all.Cfg.EnableModsecurity $all.Cfg.CustomErrorsSnippet) }}
         {{ end }}
 
         {{ buildMirrorLocations $server.Locations }}

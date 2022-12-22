@@ -160,6 +160,7 @@ The following table shows a configuration option's name, type, and the default v
 |[server-snippet](#server-snippet)|string|""|
 |[stream-snippet](#stream-snippet)|string|""|
 |[location-snippet](#location-snippet)|string|""|
+|[custom-errors-snippet](#custom-errors-snippet)|string|""|
 |[custom-http-errors](#custom-http-errors)|[]int|[]int{}|
 |[proxy-body-size](#proxy-body-size)|string|"1m"|
 |[proxy-connect-timeout](#proxy-connect-timeout)|int|5|
@@ -1022,6 +1023,10 @@ Adds custom configuration to the stream section of the nginx configuration.
 Adds custom configuration to all the locations in the nginx configuration.
 
 You can not use this to add new locations that proxy to the Kubernetes pods, as the snippet does not have access to the Go template functions. If you want to add custom locations you will have to [provide your own nginx.tmpl](https://kubernetes.github.io/ingress-nginx/user-guide/nginx-configuration/custom-template/).
+
+## custom-errors-snippet
+
+Adds custom configuration to the custom error locations of the nginx configuration.
 
 ## custom-http-errors
 
